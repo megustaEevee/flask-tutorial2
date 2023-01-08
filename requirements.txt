@@ -1,0 +1,17 @@
+attrs==22.2.0
+click==8.1.3
+coverage==7.0.4
+exceptiongroup==1.1.0
+Flask==2.2.2
+-e git+https://github.com/megustaEevee/flask-tutorial.git@8f4b44d47393d052e85279ad3aaa429471268f31#egg=flaskr&subdirectory=flask-tutorial
+gunicorn==20.1.0
+iniconfig==2.0.0
+itsdangerous==2.1.2
+Jinja2==3.1.2
+MarkupSafe==2.1.1
+packaging==22.0
+pluggy==1.0.0
+pytest==7.2.0
+tomli==2.0.1
+waitress==2.1.2
+Werkzeug==2.2.2
