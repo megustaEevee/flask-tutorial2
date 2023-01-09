@@ -11,7 +11,7 @@ def create_app(test_config=None):
     app.config['BASIC_AUTH_PASSWORD'] = '2222'
     app.config['BASIC_AUTH_FORCE'] = True
 
-    basic_auth = BasicAuth(app)
+    # basic_auth = BasicAuth(app)
 
     app.config.from_mapping(
         SECRET_KEY='dev',
