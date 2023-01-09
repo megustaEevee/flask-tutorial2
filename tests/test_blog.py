@@ -2,12 +2,12 @@ import pytest
 from flaskr.db import get_db
 
 def test_index(client, auth):
-    response = client.get('/')
+    response = client.get('/index')
     assert b"Log In" in response.data
     assert b"Register" in response.data
 
     auth.login()
-    response = client.get('/')
+    response = client.get('/index')
     assert b'Log Out' in response.data
     assert b'test title' in response.data
     assert b'by test on 2018-01-01' in response.data
@@ -77,7 +77,7 @@ def test_create_update_validate(client, auth, path):
 def test_delete(client, auth, app):
     auth.login()
     response = client.post('/1/delete')
-    assert response.headers["Location"] == "/"
+    assert response.headers["Location"] == "/index"
 
     with app.app_context():
         db = get_db()

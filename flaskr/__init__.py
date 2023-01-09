@@ -1,10 +1,18 @@
 import os
 
-from flask import Flask
+from flask import Flask,redirect
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    auth = HTTPBasicAuth()
+
+    users = {
+        "admin": generate_password_hash("2222"),
+    }
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -23,10 +31,20 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    @auth.verify_password
+    def verify_password(username, password):
+        if username in users and \
+                check_password_hash(users.get(username), password):
+            return username
+
     # a simple page that says hello
-    @app.route('/hello')
+    @app.route('/')
+    @auth.login_required
     def hello():
-        return 'Hello, World!'
+        return redirect('index')
+
+    if __name__ == '__main__':
+        app.run()
 
     from . import db
     db.init_app(app)
@@ -36,6 +54,6 @@ def create_app(test_config=None):
 
     from . import blog
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/index', endpoint='index')
 
     return app
